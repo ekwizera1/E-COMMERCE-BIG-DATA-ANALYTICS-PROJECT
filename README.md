@@ -1,8 +1,7 @@
 # Distributed Multi-Model Analytics for E-commerce Data
 
 **Adventist University of Central Africa (AUCA) — Big Data Analytics Final Project**  
-**Project type:** Individual project  
-**Assignment date:** 28 October 2026 | **Submission deadline:** 11 November 2026, 11:59 a.m.  
+
 **Implementation:** Python, MongoDB, Apache HBase (Docker), Apache Spark (PySpark), and static visualizations
 
 > **Scope and evidence.** This README describes the implementation actually developed in `FinalProjectBD`, as documented in the final eight-page AUCA technical report and verified terminal outputs. It distinguishes the complete MongoDB dataset from the smaller HBase subset. The project is a local proof of concept, not a performance-tested multi-node cluster or an estimate of real customer conversion.
@@ -13,8 +12,8 @@ The project evaluates how different technologies can work together in e-commerce
 
 - **MongoDB** stores complete, nested e-commerce documents and supports aggregation pipelines.
 - **HBase** stores time-oriented browsing sessions and product-by-day interaction metrics using row keys and column families.
-- **Apache Spark** cleans, summarizes and joins datasets using DataFrames and Spark SQL.
-- **Python and Matplotlib** prepare data and generate four static charts.
+- **Apache Spark** Data processing  include cleans, summarizes and joins datasets using DataFrames and Spark SQL.
+- **Python and Matplotlib**  for visualisations  purposes.
 
 **Integrated business question:** *Which products attract browsing interest, and how does this compare with their transaction performance?*
 
@@ -23,7 +22,7 @@ The solution compares product-detail views and cart quantities observed in HBase
 ## 2. Architecture and actual workflow
 
 ```text
-Lecturer-provided Python generator (repaired version retained)
+Lecturer-provided Python generator 
                   |
                   v
 users.json | products.json | categories.json
@@ -54,9 +53,7 @@ MongoDB: ecommerce_db            HBase in Docker: hbase-recovery
 **Important:** MongoDB and HBase were connected to Spark through exported files in this implementation. Direct live Spark connectors were **not** used. HBase used the **first 5,000 sessions from `sessions_0.json`**, not a random or representative sample of all 2,000,000 sessions.
 
 ## 3. Generated data and relationships
-
-The lecturer's Python data generator was retained and repaired to produce the required synthetic dataset. The project now contains **one** generator: `data_generation/dataset_generator.py` (the working, previously fixed version).
-
+```
 | Input file(s) | Records | Example fields / role |
 |---|---:|---|
 | `users.json` | 10,000 | `user_id`, registration date, geography |
@@ -151,9 +148,7 @@ The implementation was developed on **Windows with PowerShell and VS Code**, usi
 - **PySpark:** installed Python package version 4.2.1; Spark was executed locally with `local[2]` and 2 GB of driver memory in the documented runs.
 - **Java:** required for Spark and the relevant HBase environment.
 - **Python libraries:** `faker`, `pandas`, `pymongo`, `ijson`, `pyspark`, and `matplotlib`; report builders may additionally need `python-docx`, `python-pptx` and `Pillow` depending on the script imports.
-
-Versions other than those confirmed above are not claimed to be pinned. A full fresh-machine reproduction may require adjusting Docker, Java and package configuration.
-
+```
 **Always open PowerShell in the project root before running relative-path scripts:**
 
 ```powershell
@@ -161,12 +156,6 @@ cd C:\Users\user\Desktop\FinalProjectBD
 ```
 
 If the terminal has an old `SPARK_HOME` pointing to `C:\spark` (Spark 3.5.9), clear it before running the installed PySpark 4.2.1:
-
-```powershell
-Remove-Item Env:SPARK_HOME -ErrorAction SilentlyContinue
-```
-
-This addresses the version conflict encountered during development; it is not a universal Spark installation instruction.
 
 ## 6. Part 1A — MongoDB modeling, loading and analytics
 
@@ -385,11 +374,9 @@ Among the ten highest-viewed products, observed views ranged from **10 to 13**; 
 
 The locally observed project structure included:
 
-- `report/AUCA_Ecommerce_Big_Data_Technical_Report.docx` — final AUCA-oriented Word technical report.
 - `report/Technical_Report.pdf` — local PDF submission artifact; **confirm it is the current version of the final eight-page report**, rather than an earlier PDF.
-- `report/Final_Project_Presentation.pptx` — PowerPoint kept in `report/` after removing the duplicate `presentation/` folder.
 - `report/make_architecture.py`, `report/build_report.py`, `report/build_presentation.py` — supporting artifact generation scripts.
-- `guide/` — offline study/viva and step-by-step explanation documents.
+
 
 Supporting build commands, when their expected inputs and packages are available:
 
@@ -452,17 +439,6 @@ git status --short
 git check-attr filter -- users.json products.json transactions.json sessions_0.json spark/data/transactions.ndjson
 ```
 
-**Cautions before publishing:**
-
-**GitHub submission and dataset recovery**
-
-This project is configured to upload the complete source datasets and analytical outputs to GitHub.
-
-- All 24 original JSON datasets (approximately 3.7 GB) are tracked using Git Large File Storage (Git LFS).
-- Spark NDJSON and Parquet datasets are also tracked using Git LFS.
-- MongoDB and HBase scripts, Spark analytics, integration outputs, charts, reports, and presentation files are included in the project.
-- Temporary Python files, virtual environments, credentials, and unnecessary cache files are excluded through `.gitignore`.
-
 **How to restore the project from GitHub**
 
 Install Git and Git LFS, then run:
@@ -499,6 +475,3 @@ After downloading the repository, the original JSON and Spark datasets should be
 ## 15. Conclusion
 
 The project implemented an end-to-end, **multi-model e-commerce analytics proof of concept**. MongoDB held **2,515,025** documents; HBase held **5,000** chosen session records and **16,804** product-date metrics; Spark cleaned and analyzed **500,000** transactions; the integrated output retained **5,000** products and supported four visualizations. The implementation demonstrates appropriate storage-model choices, joins by shared identifiers, staged validation and evidence-aware interpretation, with clearly stated local-scale and data-coverage limitations.
-
-**Primary academic reference:** AUCA, *Big Data Analytics Final Project: Distributed Multi-Model Analytics for E-commerce Data* (28 October 2026).  
-**Project evidence:** Final eight-page `AUCA_Ecommerce_Big_Data_Technical_Report.docx` and verified PowerShell/MongoDB/HBase/Spark execution outputs (November 2026).
