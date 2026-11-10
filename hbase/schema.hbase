@@ -1,0 +1,12 @@
+# HBase schema for the E-commerce Big Data Final Project
+# Run this script only when the tables do not exist.
+
+# Store user browsing sessions.
+# info: session details
+# pv: page views
+# cart: shopping cart contents
+create 'fp_user_sessions', 'info', 'pv', 'cart'
+
+# Store daily product performance.
+# m: views, cart additions, and purchases
+create 'fp_product_metrics', 'm'

@@ -1,0 +1,18 @@
+
+# HBase queries for the E-commerce Big Data Final Project
+
+# Count loaded browsing sessions.
+count 'fp_user_sessions'
+
+# Count daily product performance records.
+count 'fp_product_metrics'
+
+# Find browsing sessions for a particular user.
+# Show session ID, start time, and conversion status.
+scan 'fp_user_sessions', {ROWPREFIXFILTER => 'user_001052#', COLUMNS => ['info:session_id', 'info:start_time', 'info:conversion_status'], LIMIT => 5}
+
+# View one session using its full row key.
+get 'fp_user_sessions', 'user_001052#8209765649#sess_4ee2a58bca'
+
+# Show one product performance record.
+scan 'fp_product_metrics', {LIMIT => 1}
